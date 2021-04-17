@@ -8,18 +8,21 @@
       />
       <Loaders v-if="$store.state.loading" />
     </div>
+    <Pagination v-if="$store.state.movies.length > 0" />
   </div>
 </template>
 
 <script>
 import MovieCard from "@/components/MovieCard.vue";
 import Loaders from "@/components/Loaders.vue";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "Home",
   components: {
     MovieCard,
     Loaders,
+    Pagination,
   },
   setup() {},
 };

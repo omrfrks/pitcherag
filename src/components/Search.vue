@@ -46,7 +46,8 @@ export default {
         }
         searchValue &&
           searchValue !== state.select &&
-          $store.dispatch("getMovies", searchValue);
+          $store.dispatch("getMovies", { value: searchValue, page: 1 }) &&
+          $store.commit("setSearch", searchValue);
       }
     );
     return {

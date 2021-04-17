@@ -8,8 +8,10 @@ export default new Vuex.Store({
     movie: {},
     movies: [],
     loading: false,
-    select: "",
+    search: "",
     error: "",
+    page: 1,
+    totalPage: 1,
   },
   mutations: {
     updateMovie(state, newMovie) {
@@ -24,6 +26,15 @@ export default new Vuex.Store({
     setError(state, error) {
       state.error = error;
     },
+    setSearch(state, value) {
+      state.search = value;
+    },
+    updatePage(state, page) {
+      state.page = page;
+    },
+    updateTotalPage(state, totalPage) {
+      state.totalPage = totalPage;
+    },
   },
   getters: {
     movieNames: (state) => (searchValue) => {
@@ -36,14 +47,20 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getMovies: ({ commit }, searchValue) => {
+    getMovies: ({ commit }, { value, page }) => {
+      commit("updatePage", page);
+      commit("updateMovies", []);
       commit("setLoading", true);
       axios
         .get(
-          `https://www.omdbapi.com/?s=${searchValue}&y=2020&apikey=f353fc1c&type=movie`
+          `https://www.omdbapi.com/?s=${value}&y=2020&apikey=f353fc1c&type=movie&page=${page}`
         )
         .then((response) => {
           if (response.data.Search) {
+            commit(
+              "updateTotalPage",
+              Math.max(1, Math.ceil(response.data.totalResults / 10))
+            );
             commit("updateMovies", response.data.Search);
             commit("setError", "");
           } else if (response.data.Error === "Too many results.") {
