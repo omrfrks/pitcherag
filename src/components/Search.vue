@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dark color="teal">
+  <v-toolbar dark color="orange">
     <v-toolbar-title>Search Movie</v-toolbar-title>
     <v-autocomplete
       v-model="select"
