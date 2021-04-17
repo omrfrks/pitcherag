@@ -57,6 +57,7 @@ export default new Vuex.Store({
         });
     },
     getMovie: ({ commit }, movieTitle) => {
+      commit("updateMovie", {});
       commit("setLoading", true);
       if (!localStorage.getItem(movieTitle)) {
         axios
