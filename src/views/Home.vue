@@ -8,7 +8,7 @@
       />
       <Loaders v-if="$store.state.loading" />
     </div>
-    <Pagination v-if="$store.state.movies.length > 0" />
+    <Pagination v-if="$store.state.totalPage > 1" />
   </div>
 </template>
 
