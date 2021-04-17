@@ -13,11 +13,21 @@ export default new Vuex.Store({
     page: 1,
     totalPage: 1,
   },
+  getters: {
+    movieNames: (state) => (searchValue) => {
+      return state.movies.map((e) => {
+        (e.Title || "")
+          .toLowerCase()
+          .indexOf((searchValue || "").toLowerCase()) > -1;
+        return e.Title;
+      });
+    },
+  },
   mutations: {
-    updateMovie(state, newMovie) {
+    setMovie(state, newMovie) {
       state.movie = newMovie;
     },
-    updateMovies(state, movies) {
+    setMovies(state, movies) {
       state.movies = movies;
     },
     setLoading(state, value) {
@@ -29,27 +39,17 @@ export default new Vuex.Store({
     setSearch(state, value) {
       state.search = value;
     },
-    updatePage(state, page) {
+    setPage(state, page) {
       state.page = page;
     },
-    updateTotalPage(state, totalPage) {
+    setTotalPage(state, totalPage) {
       state.totalPage = totalPage;
-    },
-  },
-  getters: {
-    movieNames: (state) => (searchValue) => {
-      return state.movies.map((e) => {
-        (e.Title || "")
-          .toLowerCase()
-          .indexOf((searchValue || "").toLowerCase()) > -1;
-        return e.Title;
-      });
     },
   },
   actions: {
     getMovies: ({ commit }, { value, page }) => {
-      commit("updatePage", page);
-      commit("updateMovies", []);
+      commit("setPage", page);
+      commit("setMovies", []);
       commit("setLoading", true);
       axios
         .get(
@@ -58,23 +58,23 @@ export default new Vuex.Store({
         .then((response) => {
           if (response.data.Search) {
             commit(
-              "updateTotalPage",
+              "setTotalPage",
               Math.max(1, Math.ceil(response.data.totalResults / 10))
             );
-            commit("updateMovies", response.data.Search);
+            commit("setMovies", response.data.Search);
             commit("setError", "");
           } else if (response.data.Error === "Too many results.") {
             commit("setError", "Continue typing...");
-            commit("updateMovies", []);
+            commit("setMovies", []);
           } else {
             commit("setError", response.data.Error);
-            commit("updateMovies", []);
+            commit("setMovies", []);
           }
           commit("setLoading", false);
         });
     },
     getMovie: ({ commit }, movieTitle) => {
-      commit("updateMovie", {});
+      commit("setMovie", {});
       commit("setLoading", true);
       if (!localStorage.getItem(movieTitle)) {
         axios
@@ -84,12 +84,12 @@ export default new Vuex.Store({
           .then((response) => {
             const parsed = JSON.stringify(response.data);
             localStorage.setItem(movieTitle, parsed);
-            commit("updateMovie", response.data);
+            commit("setMovie", response.data);
             commit("setLoading", false);
           });
       } else {
         const movie = JSON.parse(localStorage.getItem(movieTitle));
-        commit("updateMovie", movie);
+        commit("setMovie", movie);
         commit("setLoading", false);
       }
     },

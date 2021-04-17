@@ -15,8 +15,6 @@ export default {
   components: {
     Search,
   },
-  data: () => ({
-    //
-  }),
+  setup() {},
 };
 </script>

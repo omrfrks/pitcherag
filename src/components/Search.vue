@@ -9,7 +9,6 @@
       class="mx-4"
       hide-details
       flat
-      autofocus
       loader-height="3"
       :no-data-text="$store.state.error"
       label="Start typing..."

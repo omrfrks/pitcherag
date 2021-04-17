@@ -8,9 +8,9 @@
               v-model="page"
               class="my-4"
               :length="totalPage"
-              @input="pageClicked"
-              @next="pageClicked"
-              @previous="pageClicked"
+              @input="changePage"
+              @next="changePage"
+              @previous="changePage"
             ></v-pagination>
           </v-container>
         </v-col>
@@ -35,7 +35,7 @@ export default {
         state.totalPage = newValue;
       }
     );
-    function pageClicked() {
+    function changePage() {
       $store.dispatch("getMovies", {
         value: $store.state.search,
         page: state.page,
@@ -43,7 +43,7 @@ export default {
     }
     return {
       ...toRefs(state),
-      pageClicked,
+      changePage,
     };
   },
 };
