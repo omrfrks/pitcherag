@@ -1,5 +1,5 @@
 # pitcherag
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/07e42b40-f8df-42bb-a790-f9c0fb174ace/deploy-status)](https://app.netlify.com/sites/pitcherag/deploys)
 ## Live
 
 [Live Demo](https://pitcherag.netlify.app)
