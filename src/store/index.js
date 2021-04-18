@@ -53,7 +53,7 @@ export default new Vuex.Store({
       commit("setLoading", true);
       axios
         .get(
-          `https://www.omdbapi.com/?s=${value}&y=2020&apikey=f353fc1c&type=movie&page=${page}`
+          `https://www.omdbapi.com/?s=${value}&y=2020&apikey=${process.env.VUE_APP_API_KEY}&type=movie&page=${page}`
         )
         .then((response) => {
           if (response.data.Search) {
@@ -79,7 +79,7 @@ export default new Vuex.Store({
       if (!localStorage.getItem(movieTitle)) {
         axios
           .get(
-            `https://www.omdbapi.com/?t=${movieTitle}&y=2020&plot=full&apikey=f353fc1c&type=movie`
+            `https://www.omdbapi.com/?t=${movieTitle}&y=2020&plot=full&apikey=${process.env.VUE_APP_API_KEY}&type=movie`
           )
           .then((response) => {
             const parsed = JSON.stringify(response.data);
